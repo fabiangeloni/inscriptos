@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Generador JSON Empresas</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      background: #f7f9fc;
+      color: #333;
+    }
+    .container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      padding: 2rem;
+      min-height: 100vh;
+    }
+    form {
+      background: #fff;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    }
+    form h2 {
+      margin-top: 0;
+      font-weight: 600;
+      color: #222;
+      margin-bottom: 1rem;
+    }
+    label {
+      font-weight: 500;
+      display: block;
+      margin-bottom: .3rem;
+      margin-top: 1rem;
+    }
+    input, textarea {
+      width: 100%;
+      padding: .7rem 1rem;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: .9rem;
+      outline: none;
+      transition: border-color .3s;
+    }
+    input:focus, textarea:focus {
+      border-color: #0077ff;
+    }
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+    .checkbox-group {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      margin-top: 0.5rem;
+    }
+    .output {
+      background: #1e1e2f;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+      overflow: auto;
+      position: fixed;
+      top: 30px;
+      right: 20px;
+      width: 47%;
+    }
+    .output h2 {
+      color: #fff;
+      margin-top: 0;
+      font-weight: 600;
+    }
+    pre {
+      background: #111122;
+      padding: 1rem;
+      border-radius: 8px;
+      color: #a6e22e;
+      font-size: .9rem;
+      line-height: 1.4;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <form id="empresaForm">
+      <h2>Formulario Empresa</h2>
+      
+      <label>Nombre Empresa</label>
+      <input type="text" name="nombre">
+
+      <label>Dirección</label>
+      <input type="text" name="direccion">
+
+      <label>Teléfono</label>
+      <input type="text" name="telefono">
+
+      <label>Foto perfil (URL)</label>
+      <input type="url" name="fotoPerfil">
+
+      <label>Fotos (5 URLs)</label>
+      <input type="url" name="fotos1" placeholder="Foto 1">
+      <input type="url" name="fotos2" placeholder="Foto 2">
+      <input type="url" name="fotos3" placeholder="Foto 3">
+      <input type="url" name="fotos4" placeholder="Foto 4">
+      <input type="url" name="fotos5" placeholder="Foto 5">
+
+      <label>Facebook (URL)</label>
+      <input type="url" name="facebook">
+
+      <label>Instagram (URL)</label>
+      <input type="url" name="instagram">
+
+      <label>Descripción corta</label>
+      <textarea name="descCorta"></textarea>
+
+      <label>Descripción larga</label>
+      <textarea name="descLarga"></textarea>
+
+      <label>Categoría</label>
+      <input type="text" name="categoria">
+
+      <div class="checkbox-group">
+        <input type="checkbox" name="haceEnvios" id="haceEnvios" style="width: auto;">
+        <label for="haceEnvios">Hace envíos</label>
+      </div>
+
+      <div class="checkbox-group">
+        <input type="checkbox" name="urgencias" id="urgencias" style="width: auto;">
+        <label for="urgencias">Trabaja en urgencias</label>
+      </div>
+    </form>
+
+    <div class="output">
+      <h2>JSON generado</h2>
+      <pre id="jsonOutput">{ }</pre>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('empresaForm');
+    const output = document.getElementById('jsonOutput');
+
+    form.addEventListener('input', () => {
+      const data = {
+        nombre: form.nombre.value,
+        direccion: form.direccion.value,
+        telefono: form.telefono.value,
+        fotoPerfil: form.fotoPerfil.value,
+        fotos: [
+          form.fotos1.value,
+          form.fotos2.value,
+          form.fotos3.value,
+          form.fotos4.value,
+          form.fotos5.value
+        ].filter(f => f),
+        facebook: form.facebook.value,
+        instagram: form.instagram.value,
+        descripcionCorta: form.descCorta.value,
+        descripcionLarga: form.descLarga.value,
+        categoria: form.categoria.value,
+        haceEnvios: form.haceEnvios.checked,
+        urgencias: form.urgencias.checked
+      };
+      output.textContent = JSON.stringify(data, null, 2);
+    });
+  </script>
+</body>
+</html>
